@@ -13,3 +13,5 @@ youtube_download.py
 installer_script.iss
 buildozer.spec
 YouTubeDownloader.spec
+ffmpeg.exe
+ffprobe.exe

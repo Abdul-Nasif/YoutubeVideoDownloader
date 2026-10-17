@@ -1,0 +1,226 @@
+#:import dp kivy.metrics.dp
+#:import sp kivy.metrics.sp
+
+# Palette
+#   background  0.043 0.043 0.051
+#   surface     0.082 0.082 0.094
+#   border      0.157 0.157 0.176
+#   text        0.96  0.96  0.97
+#   muted       0.52  0.52  0.58
+#   hint        0.36  0.36  0.41
+
+
+<Field>:
+    orientation: "horizontal"
+    size_hint: 1, None
+    height: dp(46)
+    spacing: 0
+    padding: 0
+    canvas.before:
+        Color:
+            rgba: 0.157, 0.157, 0.176, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(10)]
+        Color:
+            rgba: 0.082, 0.082, 0.094, 1
+        RoundedRectangle:
+            pos: self.x + dp(1), self.y + dp(1)
+            size: self.width - dp(2), self.height - dp(2)
+            radius: [dp(9)]
+
+
+<Section@BoxLayout>:
+    orientation: "vertical"
+    size_hint: 1, None
+    height: dp(16) + dp(6) + dp(46)
+    spacing: dp(6)
+
+
+<SectionLabel@Label>:
+    size_hint: 1, None
+    height: dp(16)
+    color: 0.52, 0.52, 0.58, 1
+    font_size: sp(11)
+    bold: True
+    halign: "left"
+    valign: "middle"
+    text_size: self.width, self.height
+
+
+<FlatInput@TextInput>:
+    background_color: 0, 0, 0, 0
+    background_normal: ""
+    background_active: ""
+    foreground_color: 0.96, 0.96, 0.97, 1
+    cursor_color: 0.96, 0.96, 0.97, 1
+    hint_text_color: 0.36, 0.36, 0.41, 1
+    selection_color: 0.30, 0.45, 0.85, 0.45
+    font_size: sp(14)
+    padding: dp(14), dp(15), dp(10), dp(10)
+    multiline: False
+    write_tab: False
+    size_hint: 1, 1
+
+
+<Affix@Label>:
+    size_hint_x: None
+    width: dp(70)
+    color: 0.42, 0.42, 0.47, 1
+    font_size: sp(14)
+    halign: "right"
+    valign: "middle"
+    text_size: self.width, self.height
+    padding_x: dp(2)
+
+
+<Chevron@Widget>:
+    size_hint: None, None
+    size: dp(12), dp(12)
+    canvas:
+        Color:
+            rgba: 0.52, 0.52, 0.58, 1
+        Line:
+            width: dp(1.4)
+            points:
+                self.center_x - dp(4), self.center_y + dp(2), \
+                self.center_x, self.center_y - dp(2), \
+                self.center_x + dp(4), self.center_y + dp(2)
+
+
+<LogoMark@Image>:
+    size_hint: None, None
+    size: dp(40), dp(40)
+    source: app.icon
+    allow_stretch: True
+    keep_ratio: True
+
+
+<GhostButton@Button>:
+    background_color: 0, 0, 0, 0
+    background_normal: ""
+    background_down: ""
+    color: (0.96, 0.96, 0.97, 1) if not self.disabled else (0.42, 0.42, 0.47, 1)
+    font_size: sp(13)
+    size_hint: None, None
+    size: dp(64), dp(30)
+    canvas.before:
+        Color:
+            rgba: ((0.96, 0.96, 0.97, 0.09) if self.state == "normal" else (0.96, 0.96, 0.97, 0.20)) if not self.disabled else (0.96, 0.96, 0.97, 0.04)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(8)]
+
+
+<PrimaryButton@Button>:
+    background_color: 0, 0, 0, 0
+    background_normal: ""
+    background_down: ""
+    color: (0.50, 0.50, 0.55, 1) if self.disabled else (0.05, 0.05, 0.06, 1)
+    font_size: sp(14)
+    bold: True
+    size_hint: 1, None
+    height: dp(48)
+    canvas.before:
+        Color:
+            rgba: (0.22, 0.22, 0.25, 1) if self.disabled else ((0.96, 0.96, 0.97, 1) if self.state == "normal" else (0.80, 0.80, 0.82, 1))
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(10)]
+
+
+<FlatSpinner@Spinner>:
+    background_color: 0, 0, 0, 0
+    background_normal: ""
+    background_down: ""
+    color: 0.96, 0.96, 0.97, 1
+    font_size: sp(14)
+    halign: "left"
+    valign: "middle"
+    size_hint: 1, 1
+    option_cls: "DarkSpinnerOption"
+
+
+<DarkSpinnerOption@SpinnerOption>:
+    background_color: 0, 0, 0, 0
+    background_normal: ""
+    background_down: ""
+    color: 0.96, 0.96, 0.97, 1
+    font_size: sp(13)
+    size_hint: 1, None
+    height: dp(40)
+    canvas.before:
+        Color:
+            rgba: (0.098, 0.098, 0.114, 1) if self.state == "normal" else (0.20, 0.20, 0.23, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<NavTab>:
+    background_color: 0, 0, 0, 0
+    background_normal: ""
+    background_down: ""
+    color: (0.96, 0.96, 0.97, 1) if self.selected else (0.52, 0.52, 0.58, 1)
+    font_size: sp(13)
+    bold: True
+    size_hint: None, None
+    size: dp(90), dp(32)
+    canvas.before:
+        Color:
+            rgba: (0.96, 0.96, 0.97, 0.10) if self.selected else (0, 0, 0, 0)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(8)]
+
+
+# ---------------------------------------------------------------------------
+# Segmented toggle: two chips sharing the same `group` behave as radio
+# buttons.  Inherits from ToggleButton so the "down" state persists.
+# ---------------------------------------------------------------------------
+<ToggleChip@ToggleButton>:
+    background_color: 0, 0, 0, 0
+    background_normal: ""
+    background_down: ""
+    color: (0.05, 0.05, 0.06, 1) if self.state == "down" else (0.60, 0.60, 0.66, 1)
+    font_size: sp(13)
+    bold: True
+    size_hint: 1, 1
+    canvas.before:
+        Color:
+            rgba: (0.96, 0.96, 0.97, 1) if self.state == "down" else (0.96, 0.96, 0.97, 0.06)
+        RoundedRectangle:
+            pos: self.x + dp(3), self.y + dp(3)
+            size: self.width - dp(6), self.height - dp(6)
+            radius: [dp(7)]
+
+
+# ---------------------------------------------------------------------------
+# Confirmation dialog: dark surface, no default popup chrome.
+# ---------------------------------------------------------------------------
+<ConfirmPopup>:
+    title: ""
+    title_size: 0
+    separator_height: 0
+    background: ""
+    background_color: 0, 0, 0, 0
+    size_hint: None, None
+    size: dp(340), dp(190)
+    auto_dismiss: False
+    canvas.before:
+        Color:
+            rgba: 0.157, 0.157, 0.176, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(14)]
+        Color:
+            rgba: 0.082, 0.082, 0.094, 1
+        RoundedRectangle:
+            pos: self.x + dp(1), self.y + dp(1)
+            size: self.width - dp(2), self.height - dp(2)
+            radius: [dp(13)]

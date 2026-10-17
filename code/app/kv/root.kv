@@ -1,0 +1,106 @@
+#:import dp kivy.metrics.dp
+#:import sp kivy.metrics.sp
+
+<RootWidget>:
+    orientation: "vertical"
+    size_hint: 1, 1
+    canvas.before:
+        Color:
+            rgba: 0.043, 0.043, 0.051, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    # --- Header -------------------------------------------------------
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint: 1, None
+        height: dp(80)
+        padding: dp(28), dp(18), dp(28), dp(12)
+        spacing: dp(14)
+
+        AnchorLayout:
+            size_hint_x: None
+            width: dp(40)
+            LogoMark:
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1, 1
+            spacing: dp(2)
+            Label:
+                text: "YouTube Downloader"
+                color: 0.96, 0.96, 0.97, 1
+                font_size: sp(20)
+                bold: True
+                halign: "left"
+                valign: "bottom"
+                text_size: self.width, self.height
+                size_hint: 1, None
+                height: dp(32)
+            Label:
+                text: "Download and manage your videos."
+                color: 0.52, 0.52, 0.58, 1
+                font_size: sp(12)
+                halign: "left"
+                valign: "top"
+                text_size: self.width, self.height
+                size_hint: 1, None
+                height: dp(20)
+
+        NavTab:
+            id: nav_download
+            text: "Download"
+            selected: True
+            on_release: root.go_to("download")
+
+        NavTab:
+            id: nav_library
+            text: "Library"
+            on_release: root.go_to("library")
+
+    # --- Screens ------------------------------------------------------
+    ScreenManager:
+        id: sm
+        size_hint: 1, 1
+        DownloadScreen:
+            name: "download"
+        LibraryScreen:
+            name: "library"
+
+    # --- Footer -------------------------------------------------------
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint: 1, None
+        height: dp(28)
+        padding: dp(28), 0, dp(28), 0
+        spacing: dp(10)
+
+        # Subtle top border
+        canvas.before:
+            Color:
+                rgba: 0.157, 0.157, 0.176, 1
+            Rectangle:
+                pos: self.x, self.top - dp(1)
+                size: self.width, dp(1)
+
+        Label:
+            text: "YouTube Downloader  \u00b7  v1.0 By A.R.Nasif"
+            color: 0.36, 0.36, 0.41, 1
+            font_size: sp(11)
+            halign: "left"
+            valign: "middle"
+            text_size: self.width, self.height
+            size_hint: None, 1
+            width: dp(200)
+
+        Label:
+            text: "Saving to " + app.download_dir
+            color: 0.36, 0.36, 0.41, 1
+            font_size: sp(11)
+            halign: "right"
+            valign: "middle"
+            text_size: self.width, self.height
+            shorten: True
+            shorten_from: "left"
+            size_hint: 1, 1

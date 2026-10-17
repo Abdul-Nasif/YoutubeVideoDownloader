@@ -1,0 +1,143 @@
+#:import dp kivy.metrics.dp
+#:import sp kivy.metrics.sp
+
+<DownloadScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        size_hint: 1, 1
+        padding: dp(28), dp(4), dp(28), dp(24)
+        spacing: dp(14)
+
+        Section:
+            SectionLabel:
+                text: "VIDEO URL"
+            Field:
+                Affix:
+                    text: "https://"
+                FlatInput:
+                    id: url_input
+                    hint_text: "youtube.com/watch?v=..."
+                    on_text_validate: root.fetch_formats()
+                AnchorLayout:
+                    size_hint_x: None
+                    width: dp(76)
+                    anchor_x: "center"
+                    anchor_y: "center"
+                    GhostButton:
+                        id: fetch_btn
+                        text: "Fetch"
+                        size: dp(60), dp(30)
+                        on_release: root.fetch_formats()
+
+        # --- Output format: radio pair -------------------------------
+        Section:
+            SectionLabel:
+                text: "FORMAT"
+            Field:
+                ToggleChip:
+                    id: fmt_mp4
+                    text: "MP4"
+                    group: "output_format"
+                    state: "down"
+                    on_state: root.on_format_chip("mp4", self.state)
+                ToggleChip:
+                    id: fmt_mp3
+                    text: "MP3"
+                    group: "output_format"
+                    on_state: root.on_format_chip("mp3", self.state)
+                
+
+        Section:
+            SectionLabel:
+                text: "QUALITY"
+            Field:
+                FlatSpinner:
+                    id: quality_spinner
+                    text: "Fetch formats first"
+                    values: []
+                AnchorLayout:
+                    size_hint_x: None
+                    width: dp(38)
+                    Chevron:
+
+        Section:
+            SectionLabel:
+                text: "SAVE TO"
+            Field:
+                FlatInput:
+                    id: folder_input
+                    hint_text: "Download folder"
+                AnchorLayout:
+                    size_hint_x: None
+                    width: dp(84)
+                    GhostButton:
+                        text: "Browse"
+                        size: dp(68), dp(30)
+                        on_release: root.open_folder_chooser()
+
+        Section:
+            SectionLabel:
+                text: "FILE NAME"
+            Field:
+                FlatInput:
+                    id: name_input
+                    hint_text: "Optional, defaults to the video title"
+
+        Widget:
+            size_hint_y: None
+            height: dp(2)
+
+        PrimaryButton:
+            id: download_btn
+            text: "Download"
+            on_release: root.start_download()
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1, None
+            height: dp(32)
+            spacing: dp(8)
+
+            ProgressTrack:
+                id: progress
+                size_hint: 1, None
+                height: dp(6)
+
+            BoxLayout:
+                size_hint: 1, None
+                height: dp(18)
+                spacing: dp(8)
+                Label:
+                    id: percent_label
+                    text: "0%"
+                    color: 0.52, 0.52, 0.58, 1
+                    font_size: sp(12)
+                    halign: "left"
+                    valign: "middle"
+                    text_size: self.width, self.height
+                    size_hint: 1, 1
+                Label:
+                    id: speed_label
+                    text: ""
+                    color: 0.52, 0.52, 0.58, 1
+                    font_size: sp(12)
+                    halign: "right"
+                    valign: "middle"
+                    text_size: self.width, self.height
+                    size_hint: 1, 1
+
+        Label:
+            id: status_label
+            text: ""
+            color: 0.52, 0.52, 0.58, 1
+            font_size: sp(13)
+            halign: "left"
+            valign: "middle"
+            text_size: self.width, self.height
+            shorten: True
+            shorten_from: "right"
+            size_hint: 1, None
+            height: dp(24)
+
+        Widget:
+            size_hint_y: 1

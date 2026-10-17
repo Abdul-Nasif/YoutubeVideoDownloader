@@ -1,0 +1,252 @@
+#:import dp kivy.metrics.dp
+#:import sp kivy.metrics.sp
+
+
+<PlayChip@GhostButton>:
+    color: (0.05, 0.05, 0.06, 1) if not self.disabled else (0.42, 0.42, 0.47, 1)
+    bold: True
+    canvas.before:
+        Color:
+            rgba: (0.96, 0.96, 0.97, 1) if self.state == "normal" else (0.80, 0.80, 0.82, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(8)]
+
+
+<DangerChip@GhostButton>:
+    color: (0.97, 0.50, 0.50, 1) if not self.disabled else (0.42, 0.42, 0.47, 1)
+
+
+<FileIcon@Widget>:
+    size_hint: None, None
+    size: dp(34), dp(34)
+    canvas:
+        Color:
+            rgba: 0.14, 0.14, 0.16, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(9)]
+        Color:
+            rgba: 0.70, 0.70, 0.75, 1
+        Triangle:
+            points:
+                self.center_x - dp(3), self.center_y - dp(5), \
+                self.center_x - dp(3), self.center_y + dp(5), \
+                self.center_x + dp(5), self.center_y
+
+
+<FileEntry>:
+    orientation: "horizontal"
+    size_hint: 1, None
+    height: dp(58)
+    padding: dp(12), 0, dp(8), 0
+    spacing: dp(8)
+    canvas.before:
+        Color:
+            rgba: 0.157, 0.157, 0.176, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(12)]
+        Color:
+            rgba: 0.082, 0.082, 0.094, 1
+        RoundedRectangle:
+            pos: self.x + dp(1), self.y + dp(1)
+            size: self.width - dp(2), self.height - dp(2)
+            radius: [dp(11)]
+
+    AnchorLayout:
+        size_hint_x: None
+        width: dp(34)
+        anchor_x: "center"
+        anchor_y: "center"
+        FileIcon:
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint: 1, 1
+        spacing: dp(1)
+        padding: 0, dp(9), 0, dp(9)
+
+        Label:
+            text: root.filename
+            color: 0.96, 0.96, 0.97, 1
+            font_size: sp(12)
+            halign: "left"
+            valign: "bottom"
+            text_size: self.width, self.height
+            shorten: True
+            shorten_from: "right"
+            size_hint: 1, None
+            height: dp(18)
+
+        Label:
+            text: root.size_str + "   \u00b7   " + root.date_str
+            color: 0.52, 0.52, 0.58, 1
+            font_size: sp(10)
+            halign: "left"
+            valign: "top"
+            text_size: self.width, self.height
+            shorten: True
+            shorten_from: "right"
+            size_hint: 1, None
+            height: dp(14)
+
+    AnchorLayout:
+        size_hint_x: None
+        width: dp(42)
+        anchor_x: "center"
+        anchor_y: "center"
+        PlayChip:
+            text: "Play"
+            font_size: sp(10)
+            size: dp(42), dp(26)
+            on_release: app.play_file(root.path)
+
+    AnchorLayout:
+        size_hint_x: None
+        width: dp(42)
+        anchor_x: "center"
+        anchor_y: "center"
+        GhostButton:
+            text: "Show"
+            font_size: sp(10)
+            size: dp(42), dp(26)
+            on_release: app.reveal_file(root.path)
+
+    AnchorLayout:
+        size_hint_x: None
+        width: dp(34)
+        anchor_x: "center"
+        anchor_y: "center"
+        DangerChip:
+            text: "Del"
+            font_size: sp(10)
+            size: dp(34), dp(26)
+            on_release: app.delete_library_file(root.path)
+
+
+<LibraryScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        size_hint: 1, 1
+        padding: dp(16), dp(8), dp(16), dp(12)
+        spacing: dp(10)
+
+        # --- Header --------------------------------------------------
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: 1, None
+            height: dp(32)
+            spacing: dp(6)
+
+            Label:
+                text: "Downloaded files"
+                color: 0.96, 0.96, 0.97, 1
+                font_size: sp(14)
+                bold: True
+                halign: "left"
+                valign: "middle"
+                text_size: self.width, self.height
+                shorten: True
+                shorten_from: "right"
+                size_hint: 1, 1
+
+            Label:
+                text: str(len(root.rv_data))
+                color: 0.52, 0.52, 0.58, 1
+                font_size: sp(11)
+                halign: "center"
+                valign: "middle"
+                text_size: self.width, self.height
+                size_hint: None, 1
+                width: dp(24)
+
+            AnchorLayout:
+                size_hint_x: None
+                width: dp(56)
+                anchor_x: "center"
+                anchor_y: "center"
+                GhostButton:
+                    text: "Refresh"
+                    font_size: sp(11)
+                    size: dp(56), dp(26)
+                    on_release: root.refresh()
+
+            AnchorLayout:
+                size_hint_x: None
+                width: dp(56)
+                anchor_x: "center"
+                anchor_y: "center"
+                GhostButton:
+                    text: "Change"
+                    font_size: sp(11)
+                    size: dp(56), dp(26)
+                    on_release: root.change_folder()
+
+            AnchorLayout:
+                size_hint_x: None
+                width: dp(50)
+                anchor_x: "center"
+                anchor_y: "center"
+                GhostButton:
+                    text: "Open"
+                    font_size: sp(11)
+                    size: dp(50), dp(26)
+                    on_release: root.open_current_folder()
+
+        # --- Status line ---------------------------------------------
+        Label:
+            text: root.status_text
+            color: 0.52, 0.52, 0.58, 1
+            font_size: sp(11)
+            halign: "left"
+            valign: "middle"
+            text_size: self.width, self.height
+            shorten: True
+            shorten_from: "right"
+            size_hint: 1, None
+            height: dp(16)
+
+        # --- Divider --------------------------------------------------
+        Widget:
+            size_hint: 1, None
+            height: dp(1)
+            canvas:
+                Color:
+                    rgba: 0.157, 0.157, 0.176, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        # --- List + empty state --------------------------------------
+        FloatLayout:
+
+            RecycleView:
+                id: rv
+                viewclass: "FileEntry"
+                data: root.rv_data
+                bar_width: dp(3)
+                bar_color: 0.96, 0.96, 0.97, 0.35
+                bar_inactive_color: 0.96, 0.96, 0.97, 0.12
+                scroll_type: ["bars", "content"]
+                RecycleBoxLayout:
+                    default_size: None, dp(58)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: "vertical"
+                    spacing: dp(6)
+                    padding: 0, dp(4), 0, dp(4)
+
+            Label:
+                text: "No downloads yet"
+                color: 0.42, 0.42, 0.47, 1
+                font_size: sp(12)
+                halign: "center"
+                valign: "middle"
+                text_size: self.width, self.height
+                opacity: 0 if root.rv_data else 1
+                size_hint: 1, 1
