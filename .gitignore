@@ -1,0 +1,15 @@
+.env
+__pycache__
+./__pycache__
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+youtube_download.py
+installer_script.iss
+buildozer.spec
+YouTubeDownloader.spec
